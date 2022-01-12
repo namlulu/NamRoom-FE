@@ -8,7 +8,6 @@ export default class TweetService {
     const query = username ? `?username=${username}` : '';
     return this.http.fetch(`/messages${query}`, {
       method: 'GET',
-      headers: this.getHeaders(),
     });
   }
 
