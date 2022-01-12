@@ -7,18 +7,25 @@ import App from './App';
 import AuthService from './service/auth';
 import TweetService from './service/tweet';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider, AuthErrorEventBus } from './context/AuthContext';
+import {
+  AuthProvider,
+  AuthErrorEventBus,
+  fetchToken,
+  fetchCsrfToken,
+} from './context/AuthContext';
 import HttpClient from './network/http';
 import Socket from './network/socket';
-import TokenStorage from './db/token';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 const authErrorEventBus = new AuthErrorEventBus();
-const tokenStorage = new TokenStorage();
-const httpClient = new HttpClient(baseURL, authErrorEventBus);
-const authService = new AuthService(httpClient, tokenStorage);
-const socketClient = new Socket(baseURL, () => tokenStorage.getToken());
-const tweetService = new TweetService(httpClient, tokenStorage, socketClient);
+const httpClient = new HttpClient(
+  baseURL,
+  authErrorEventBus, //
+  () => fetchCsrfToken()
+);
+const authService = new AuthService(httpClient);
+const socketClient = new Socket(baseURL, () => fetchToken());
+const tweetService = new TweetService(httpClient, socketClient);
 
 const socketIO = socket(baseURL);
 socketIO.on('connect-error', (error) => {
