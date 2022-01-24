@@ -16,7 +16,7 @@ import {
 import HttpClient from './network/http';
 import Socket from './network/socket';
 
-const baseURL = process.env.REACT_APP_BASE_URL;\
+const baseURL = process.env.REACT_APP_BASE_URL;
 console.log(baseURL);
 const authErrorEventBus = new AuthErrorEventBus();
 const httpClient = new HttpClient(
