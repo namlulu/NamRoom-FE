@@ -39,10 +39,10 @@ export default class AuthService {
   }
 
   async csrfToken() {
-    const resp = await this.http.fetch('/auth/csrf-token', {
+    const response = await this.http.fetch('/auth/csrf-token', {
       method: 'GET',
     });
 
-    return resp.csrfToken;
+    return response.csrfToken;
   }
 }
